@@ -15,6 +15,18 @@ describe('hooks:preferences', function() {
     expect(nautilus.preferences.get('foo.bar')).toEqual('baz');
   });
 
+  it('allows for observing preferences', () => {
+    let observed = false;
+    nautilus.preferences.observe.on('hello', val => {
+      observed = val;
+    });
+
+    nautilus.preferences.set('hello', 'watcher');
+    expect(observed).toEqual('watcher');
+    nautilus.preferences.set('hello', 'world');
+    expect(observed).toEqual('world');
+  });
+
   it('persists preferences to disk', () => {
     const savedPreferences = require(nautilus.preferences.path);
     expect(savedPreferences.hello).toEqual('world');

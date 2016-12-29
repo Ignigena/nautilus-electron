@@ -1,0 +1,26 @@
+{
+  "name": "nautilus-electron",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test electron-mocha 'test/**/*.test.js' --check-leaks --require test/coverage && istanbul report lcov",
+    "lint": "eslint ."
+  },
+  "author": "Albert Martin <albert@imor.tl>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.4.13",
+    "electron-config": "^0.2.1",
+    "nautilus": "github:ignigena/nautilus"
+  },
+  "devDependencies": {
+    "electron-mocha": "^3.3.0",
+    "eslint": "^3.12.2",
+    "eslint-config-google": "^0.7.1",
+    "expect": "^1.20.2",
+    "istanbul": "^0.4.3",
+    "mocha": "^3.0.2",
+    "spectron": "^3.4.1"
+  }
+}

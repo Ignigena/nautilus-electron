@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test electron-mocha 'test/**/*.test.js' --check-leaks --require test/coverage && istanbul report lcov",
+    "test": "NODE_ENV=test electron-mocha 'test/**/*.test.js' --check-leaks --require test/coverage --color && istanbul report lcov",
     "lint": "eslint ."
   },
   "author": "Albert Martin <albert@imor.tl>",

@@ -20,6 +20,8 @@ class NautilusDesktop extends Nautilus {
 
     this.loadHooks('core');
     this.loadHooks('custom');
+
+    this.loadHooks('custom', 'channels');
   }
 }
 

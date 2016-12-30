@@ -1,6 +1,8 @@
 const expect = require('expect');
 const nautilus = require('../app.js');
 
+const defaults = require('../../lib/defaults/window.js');
+
 describe('hooks:window', function() {
 
   it('tracks the main application window', () => {
@@ -18,8 +20,8 @@ describe('hooks:window', function() {
 
   it('respects default configuration', () => {
     const windowSize = nautilus.window.main.getSize();
-    expect(windowSize[0]).toEqual(800);
-    expect(windowSize[1]).toEqual(600);
+    expect(windowSize[0]).toEqual(defaults.width);
+    expect(windowSize[1]).toEqual(defaults.height);
   });
 
 });

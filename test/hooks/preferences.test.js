@@ -4,7 +4,7 @@ const nautilus = require('../app.js');
 describe('hooks:preferences', function() {
 
   it('determines the preferences location based on the package name', () => {
-    expect(nautilus.preferences.path).toInclude('nautilus-electron.json');
+    expect(nautilus.preferences.path).toInclude('nautilus/electron.json');
   });
 
   it('allows to set and get preferences by key', () => {

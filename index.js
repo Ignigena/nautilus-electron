@@ -1,6 +1,7 @@
 const Nautilus = require('@nautilus/web/core');
 const electron = require('electron');
 const path = require('path');
+const stack = require('callsite');
 
 /**
  * Nautilus Desktop provides the same convention over configuration pattern for
@@ -17,6 +18,7 @@ class NautilusDesktop extends Nautilus {
    * @param {Object} config Optional top level configuration.
    */
   constructor(config) {
+    electron.app.appPath = path.dirname(stack()[1].getFileName());
     super(electron.app, config);
 
     this.loadHooks('core');

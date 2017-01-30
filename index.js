@@ -1,4 +1,4 @@
-const Nautilus = require('nautilus/core');
+const Nautilus = require('@nautilus/web/core');
 const electron = require('electron');
 const path = require('path');
 

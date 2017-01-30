@@ -1,5 +1,5 @@
 {
-  "name": "nautilus-electron",
+  "name": "@nautilus/electron",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -10,9 +10,9 @@
   "author": "Albert Martin <albert@imor.tl>",
   "license": "MIT",
   "dependencies": {
+    "@nautilus/web": "^0.5.3",
     "electron": "^1.4.13",
-    "electron-config": "^0.2.1",
-    "nautilus": "github:ignigena/nautilus"
+    "electron-config": "^0.2.1"
   },
   "devDependencies": {
     "electron-mocha": "^3.3.0",

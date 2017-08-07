@@ -3,55 +3,55 @@
 // Credit to
 // https://raw.githubusercontent.com/tropy/tropy/master/test/support/coverage.js
 
-const glob = require('glob')
-const { readFileSync: read, realpathSync } = require('fs')
-const { Reporter, Instrumenter, Collector, hook } = require('istanbul')
-const { keys } = Object
+'use strict'
 
-function match () {
+const glob = require('glob')
+const { resolve, join } = require('path')
+const { readFileSync: read, writeFileSync: write } = require('fs')
+const { hookRequire } = require('istanbul-lib-hook')
+const { createInstrumenter } = require('istanbul-lib-instrument')
+
+
+function match() {
   const map = {}
   const fn = function (file) { return map[file] }
-  fn.files = []
 
-  for (let file of glob.sync(pattern)) {
-    let fullpath = realpathSync(file)
-    fn.files.push(fullpath)
-    map[fullpath] = true
-  }
+  fn.files = glob.sync(pattern, { root, realpath: true })
+  for (let file of fn.files) map[file] = true
 
   return fn
 }
 
-function report () {
-  const cov = global.__coverage__
+function report() {
   for (let file of matched.files) {
     if (!cov[file]) {
-      // Add uncovered files to the report.
+      // Files that are not touched by code ran by the test runner is
+      // manually instrumented, to illustrate the missing coverage.
       transformer(read(file, 'utf-8'), file)
-      for (let key of keys(instrumenter.coverState.s)) {
-        instrumenter.coverState.s[key] = 0
-      }
-      cov[file] = instrumenter.coverState
+      cov[file] = instrumenter.lastFileCoverage()
     }
   }
 
-  const collector = new Collector()
-  collector.add(cov)
-
-  const reporter = new Reporter()
-  reporter.addAll(['text-summary', 'json'])
-  reporter.write(collector, true, () => {})
+  write(join(tmpd, `${process.type}.json`), JSON.stringify(cov), 'utf-8')
 }
 
-// The source files to cover.  Avoid node_modules/, coverage/, and
-// */coverage.js (supposed to be test/coverage.js)
 
-const pattern = '{!(node_modules|coverage|test)/**,.}/!(coverage).js'
-const matched = match()
-
-const instrumenter = new Instrumenter()
+const instrumenter = createInstrumenter()
 const transformer = instrumenter.instrumentSync.bind(instrumenter)
+const cov = global.__coverage__ = {}
 
-hook.hookRequire(matched, transformer, {})
+const root = resolve(__dirname, '..', '..')
+const tmpd = resolve(root, '.nyc_output')
 
-process.on('exit', report)
+const pattern = (process.type === 'browser') ?
+  'lib/{browser,common}/**/*.js' :
+  '{lib/!(browser)/**,lib}/*.js'
+
+const matched = match()
+hookRequire(matched, transformer, {})
+
+if (process.type === 'browser') {
+  process.on('exit', report)
+} else {
+  window.addEventListener('unload', report)
+}

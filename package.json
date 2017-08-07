@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test electron-mocha 'test/**/*.test.js' --check-leaks --require test/coverage --color && istanbul report lcov",
+    "test": "NODE_ENV=test electron-mocha 'test/**/*.test.js' --check-leaks --require test/coverage --color",
+    "posttest": "nyc report --reporter=lcov",
     "lint": "eslint ."
   },
   "author": "Albert Martin <albert@imor.tl>",
@@ -19,8 +20,15 @@
     "eslint": "^3.12.2",
     "eslint-config-google": "^0.7.1",
     "expect": "^1.20.2",
-    "istanbul": "^0.4.3",
+    "istanbul-lib-hook": "^1.0.7",
+    "istanbul-lib-instrument": "^1.7.0",
     "mocha": "^3.0.2",
+    "nyc": "^11.1.0",
     "spectron": "^3.4.1"
+  },
+  "nyc": {
+    "exclude": [
+      "test/**/*"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-const Nautilus = require('@nautilus/web/core');
+const Nautilus = require('@nautilus/core');
 const electron = require('electron');
 const path = require('path');
 const stack = require('callsite');
@@ -21,10 +21,10 @@ class NautilusDesktop extends Nautilus {
     electron.app.appPath = path.dirname(stack()[1].getFileName());
     super(electron.app, config);
 
-    this.loadHooks('core');
-    this.loadHooks('custom');
+    this.app.hooks.load('core');
+    this.app.hooks.load('custom');
 
-    this.loadHooks('custom', 'channels');
+    this.app.hooks.load('custom', 'channels');
 
     this.loadPlugins();
   }
@@ -40,7 +40,7 @@ class NautilusDesktop extends Nautilus {
   loadPlugins() {
     let plugins = path.dirname(this.app.preferences.path);
     plugins = path.resolve(plugins, 'Plugins');
-    this.loadHooks('user', plugins);
+    this.app.hooks.load('user', plugins);
   }
 }
 
